@@ -39,8 +39,8 @@ Route::get('/students', [StudentController::class, 'index']);
 // Method POST Student
 Route::post('/students', [StudentController::class, 'store']);
 
-// Method PUT Student
+// Membuat Method PUT Student
 Route::put('/students/{id}', [StudentController::class, 'update']);
 
-// Method DELETE Student
+// Membuat Method DELETE Student
 Route::delete('/students/{id}', [StudentController::class, 'destroy']);
