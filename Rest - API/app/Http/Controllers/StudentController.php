@@ -68,13 +68,30 @@ class StudentController extends Controller
     {
         $student = Student::find($id);
 
-        $student = $student->update($request->all());
 
-        $data = [
-            'message' => 'Student Updated Successfully',
-            'student' => $student
-        ];
-        return response()->json($data, 200);
+        if ($student) {
+            // Cara 1 - Manual
+            // $input = [
+            //     'name' => $request->name ?? $student->name,
+            //     'email' => $request->email ?? $student->email,
+            //     'phone' => $request->phone ?? $student->phone,
+            //     'address' => $request->address ?? $student->address,
+            // ];
+
+            // Cara 2 - Simple
+            $student->update($request->all() ?? $student->all());
+
+            $data = [
+                'message' => 'Student Updated Successfully',
+                'student' => $student
+            ];
+            return response()->json($data, 200);
+        } else {
+            $data = [
+                'message' => 'Student Not Found',
+            ];
+            return response()->json($data, 404);
+        }
     }
 
     /**
@@ -83,12 +100,17 @@ class StudentController extends Controller
     public function destroy(string $id)
     {
         $student = Student::find($id);
-        $student->delete();
-
-        $data = [
-            'message' => 'Student Deleted Successfully',
-            'student' => $student
-        ];
-        return response()->json($data, 200);
+        if ($student) {
+            $student->delete();
+            $data = [
+                'message' => 'Student Deleted Successfully',
+            ];
+            return response()->json($data, 200);
+        } else {
+            $data = [
+                'message' => 'Student Not Found',
+            ];
+            return response()->json($data, 404);
+        }
     }
 }
